@@ -1,20 +1,18 @@
 // adminController.js
 import Product from "../models/productModel.js";
+import configureMulter from "../services/configureMulter.js";
+import { uploadFilesToS3 } from "../services/s3Service.js";
 
 // Controller function to add a product
 export const addProduct = async (req, res) => {
   try {
-    const {
-      name,
-      shortDescription,
-      longDescription,
-      quantity,
-      price,
-      imageUrl_1,
-      imageUrl_2,
-      imageUrl_3,
-      imageUrl_4,
-    } = req.body;
+    const uploadImages = configureMulter(4); // Set the maximum number of images per product
+
+    // Call multer middleware to upload images
+    await uploadImages(req, res);
+
+    const { name, shortDescription, longDescription, quantity, price } =
+      req.body;
 
     // Check if a product with the same name already exists
     const existingProduct = await Product.findOne({ name });
@@ -26,17 +24,18 @@ export const addProduct = async (req, res) => {
         .json({ error: "Product with this name already exists" });
     }
 
-    // Create a new product
+    // Get uploaded image URLs from req.files (uploaded by multer)
+    const imageFiles = req.files;
+    const imageUrls = await uploadFilesToS3(imageFiles);
+
+    // Create a new product with uploaded image URLs
     const newProduct = new Product({
       name,
       shortDescription,
       longDescription,
       quantity,
       price,
-      imageUrl_1,
-      imageUrl_2,
-      imageUrl_3,
-      imageUrl_4,
+      images: imageUrls, // Store the S3 URLs of the images
     });
 
     // Save the product to the database
