@@ -56,6 +56,7 @@ export async function token(req, res) {
     return res.status(403).json({ message: "Invalid refresh token" });
   }
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    console.log(user);
     if (err) return res.sendStatus(403);
     const accessToken = generateAccessToken(user);
     res.json({ accessToken: accessToken });

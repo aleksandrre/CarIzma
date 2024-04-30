@@ -28,62 +28,9 @@ app.use("/products", productRoutes);
 app.use("/admin", adminRoutes);
 app.use("/cart", cartRoutes);
 
-// Socket.IO connection handling
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
-
-  // Handle private messages
-  socket.on(
-    "private_message",
-    async ({ senderUserId, receiverId, message }) => {
-      try {
-        // Identify sender and check if it's an admin or a regular user
-        const senderUser = await User.findById(senderUserId);
-        console.log("1");
-
-        // If the sender is an admin, save the message to the user
-        if (senderUser.isAdmin) {
-          const newChatMessage = await ChatMessage.create({
-            sender: senderUserId,
-            receiver: receiverId,
-            message,
-          });
-
-          io.to(receiverId).emit("private_message", {
-            sender: senderUserId,
-            message,
-            timestamp: newChatMessage.timestamp,
-          });
-        } else {
-          // If the sender is a regular user, save the message to the admin
-          const adminUser = await User.findOne({ isAdmin: true });
-          const newChatMessage = await ChatMessage.create({
-            sender: senderUserId,
-            receiver: adminUser._id,
-            message,
-          });
-
-          io.to(adminUser._id).emit("private_message", {
-            sender: senderUserId,
-            message,
-            timestamp: newChatMessage.timestamp,
-          });
-        }
-      } catch (error) {
-        console.error("Error saving chat message:", error);
-      }
-    }
-  );
-
-  // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
-});
-
 // Database connection
 mongoose
-  .connect("mongodb://localhost:27017/your-database-name", {})
+  .connect("mongodb://localhost:27017/CarIzma", {})
   .then(() => {
     console.log("Successfully connected to MongoDB");
     server.listen(PORT, () => {

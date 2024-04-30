@@ -7,34 +7,6 @@ import {
   sendPasswordResetEmail,
 } from "../utils/emailUtils.js";
 
-export async function verifyEmail(req, res) {
-  try {
-    const token = req.params.token;
-
-    // Find the user with the corresponding email verification token
-    const user = await User.findOne({
-      emailVerificationToken: token,
-      emailVerificationExpires: { $gt: Date.now() }, // Check if the token is not expired
-    });
-
-    if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token" });
-    }
-    // Mark the user account as verified
-    user.emailVerified = true;
-    user.emailVerificationToken = undefined;
-    user.emailVerificationExpires = undefined;
-
-    // Save the updated user information to the database
-    await user.save();
-
-    res.status(200).json({ message: "Email verification successful" });
-  } catch (error) {
-    console.error("Error during email verification:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-}
-
 export async function registerUser(req, res) {
   try {
     const { username, password, email } = req.body;
@@ -84,6 +56,34 @@ export async function registerUser(req, res) {
     });
   } catch (error) {
     console.error("Error during registration:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function verifyEmail(req, res) {
+  try {
+    const token = req.params.token;
+
+    // Find the user with the corresponding email verification token
+    const user = await User.findOne({
+      emailVerificationToken: token,
+      emailVerificationExpires: { $gt: Date.now() }, // Check if the token is not expired
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+    // Mark the user account as verified
+    user.emailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationExpires = undefined;
+
+    // Save the updated user information to the database
+    await user.save();
+
+    res.status(200).json({ message: "Email verification successful" });
+  } catch (error) {
+    console.error("Error during email verification:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
