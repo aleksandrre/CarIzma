@@ -25,19 +25,11 @@ const productSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
-  imageUrl_1: {
-    type: String,
+  images: {
+    type: [String],
     required: true,
   },
-  imageUrl_2: {
-    type: String,
-  },
-  imageUrl_3: {
-    type: String,
-  },
-  imageUrl_4: {
-    type: String,
-  },
+
   // Add other fields as needed
 });
 

@@ -15,5 +15,6 @@ router.delete(
   isAdmin,
   deleteProductById
 );
+router.put("/products/:productId", authenticateToken, isAdmin, updateProduct);
 
 export default router;
