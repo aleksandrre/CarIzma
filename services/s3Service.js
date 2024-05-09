@@ -17,6 +17,7 @@ const s3Client = new S3Client({
 });
 
 export const uploadFilesToS3 = async (files) => {
+  console.log(files);
   return Promise.all(
     files.map(async (file) => {
       const fileName = `uploads/${uuidv4()}-${file.originalname}`;
