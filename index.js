@@ -67,3 +67,5 @@ mongoose
 //     console.error("Error creating admin user:", error);
 //   }
 // }
+
+//cors პრობლემა თუ მექნება შეიძლება bucket permission cors ი უნდა გავასწორო და ჩავწერო შიგნით cors კოდი
