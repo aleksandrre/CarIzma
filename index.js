@@ -1,8 +1,6 @@
 // Import necessary modules
 import express from "express";
 import cors from "cors";
-import http from "http";
-import { Server } from "socket.io";
 import mongoose from "mongoose";
 import { User } from "./models/usersModel.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -14,8 +12,6 @@ import bcrypt from "bcrypt";
 
 const PORT = 3001;
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
 
 // Middleware
 app.use(cors());
@@ -36,7 +32,7 @@ mongoose
   )
   .then(() => {
     console.log("Successfully connected to MongoDB");
-    server.listen(PORT, () => {
+    app.listen(PORT, () => {
       console.log(`App is listening on ${PORT} port`);
     });
   })
