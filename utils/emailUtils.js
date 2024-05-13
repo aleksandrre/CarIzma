@@ -16,7 +16,7 @@ export async function sendVerificationEmail(user) {
     });
 
     // Construct the verification link using the generated token
-    const verificationLink = `${process.env.BASE_URL}/auth/verify/${user.emailVerificationToken}`;
+    const verificationLink = `${process.env.BASE_URL}/email/verify/${user.emailVerificationToken}`;
 
     // Compose email options
     const mailOptions = {
