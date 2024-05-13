@@ -1,6 +1,6 @@
 // controllers/emailController.js
 import crypto from "crypto";
-import bcrypt from "bcryptjs/dist/bcrypt.js";
+import bcrypt from "bcrypt";
 import { User } from "../models/usersModel.js";
 import {
   sendVerificationEmail,

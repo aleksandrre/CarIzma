@@ -10,7 +10,7 @@ import emailRoutes from "./routes/emailRoutes.js";
 import productRoutes from "./routes/productsRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
-import bcrypt from "bcryptjs/dist/bcrypt.js";
+import bcrypt from "bcrypt";
 
 const PORT = 3001;
 const app = express();
