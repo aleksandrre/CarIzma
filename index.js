@@ -10,7 +10,10 @@ import adminRoutes from "./routes/adminRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import bcrypt from "bcryptjs";
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
 const app = express();
 
 // Middleware
@@ -26,16 +29,12 @@ app.use("/cart", cartRoutes);
 
 // Database connection
 mongoose
-  .connect(
-    "mongodb+srv://alekochokheli01:123@cluster0.ucsj7po.mongodb.net/carizma?retryWrites=true&w=majority&appName=Cluster0",
-    {}
-  )
+  .connect(MONGODB_URI, {})
   .then(() => {
     console.log("Successfully connected to MongoDB");
     app.listen(PORT, () => {
       console.log(`App is listening on ${PORT} port`);
     });
-    // createAdminUser();
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
