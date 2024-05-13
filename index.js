@@ -30,7 +30,10 @@ app.use("/cart", cartRoutes);
 
 // Database connection
 mongoose
-  .connect("mongodb://localhost:27017/CarIzma", {})
+  .connect(
+    "mongodb+srv://alekochokheli01:123@cluster0.ucsj7po.mongodb.net/carizma?retryWrites=true&w=majority&appName=Cluster0",
+    {}
+  )
   .then(() => {
     console.log("Successfully connected to MongoDB");
     server.listen(PORT, () => {
