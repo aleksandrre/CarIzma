@@ -35,6 +35,7 @@ mongoose
     app.listen(PORT, () => {
       console.log(`App is listening on ${PORT} port`);
     });
+    // createAdminUser();
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
@@ -43,17 +44,11 @@ mongoose
 // async function createAdminUser() {
 //   try {
 //     // Check if an admin user already exists
-//     const existingAdmin = await User.findOne({ isAdmin: true });
-
-//     if (existingAdmin) {
-//       console.log("Admin user already exists.");
-//       return;
-//     }
 
 //     // Generate a random token for email verification
 
 //     // Hash the default admin password using bcrypt
-//     const adminPassword = "aleksandre1"; // Change this to a secure password
+//     const adminPassword = "123"; // Change this to a secure password
 //     const hashedAdminPassword = await bcrypt.hash(adminPassword, 10);
 
 //     // Create a new admin user with the hashed password and email verification token
@@ -73,4 +68,3 @@ mongoose
 //     console.error("Error creating admin user:", error);
 //   }
 // }
-// createAdminUser();
