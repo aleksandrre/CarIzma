@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.get("/", authenticateToken, getAllProducts);
+router.get("/", getAllProducts);
 
-router.get("/:id", authenticateToken, getOneProduct);
+router.get("/:id", getOneProduct);
 
 export default router;
